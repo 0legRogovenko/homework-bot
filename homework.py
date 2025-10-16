@@ -1,5 +1,6 @@
 import logging
 import time
+import os
 
 import requests
 from dotenv import load_dotenv
@@ -12,10 +13,9 @@ from exceptions import (
 )
 
 from constants import (
-    PRACTICUM_TOKEN,
+    REQUIRED_TOKENS,
     TELEGRAM_TOKEN,
     TELEGRAM_CHAT_ID,
-    REQUIRED_TOKENS,
     RETRY_PERIOD,
     ENDPOINT,
     HEADERS,
@@ -41,6 +41,8 @@ from constants import (
 
 
 load_dotenv()
+
+PRACTICUM_TOKEN = os.getenv('PRACTICUM_TOKEN')
 
 
 def check_tokens():
