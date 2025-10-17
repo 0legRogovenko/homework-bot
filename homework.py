@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 import time
 from http import HTTPStatus
 
@@ -12,7 +13,6 @@ from exceptions import (
     EndpointError,
     SendMessageError,
 )
-
 from constants import (
     API_HOMEWORK_NAME_MISSING_ERROR,
     API_HOMEWORKS_NOT_LIST_ERROR,
@@ -52,7 +52,7 @@ def check_tokens():
     missing = [name for name in REQUIRED_TOKENS if not globals().get(name)]
     if missing:
         logging.critical(
-            MISSING_ENV_VAR + f'Отсутствуют: {", ".join(missing)}'
+            MISSING_ENV_VAR + f'Отсутствуют: {missing}'
         )
         return False
     return True
@@ -85,29 +85,28 @@ def send_message(bot, message):
 
 def get_api_answer(timestamp):
     """Делает запрос к эндпоинту API-сервиса."""
-    rq_pars = dict(
+    request_params = dict(
         url=ENDPOINT,
         headers=HEADERS,
         params={'from_date': timestamp}
     )
     try:
         response = requests.get(
-            **rq_pars
+            **request_params
         )
     except requests.RequestException as error:
         raise ConnectionError(
             API_REQUEST_ERROR.format(
                 error=error,
-                **rq_pars
+                **request_params
             )
         )
 
     if response.status_code != HTTPStatus.OK:
         raise EndpointError(
             ENDPOINT_UNAVAILABLE_ERROR.format(
-                endpoint=ENDPOINT,
                 status_code=response.status_code,
-                **rq_pars
+                **request_params
             )
         )
     data = response.json()
@@ -118,7 +117,7 @@ def get_api_answer(timestamp):
                 API_RESPONSE_ERROR.format(
                     key=key,
                     value=data[key],
-                    **rq_pars
+                    **request_params
                 )
             )
 
@@ -131,23 +130,24 @@ def check_response(response):
     Документация: урок «API сервиса Практикум Домашка».
     """
     if not isinstance(response, dict):
-        error_msg = (
-            f'{API_RESPONSE_NOT_DICT_ERROR}'
-            f'Получено: {type(response)} - {repr(response)}'
+        raise TypeError(
+            API_RESPONSE_NOT_DICT_ERROR.format(
+                actual_type=type(response),
+                actual_value=repr(response)
+            )
         )
-        raise TypeError(error_msg)
-
     if 'homeworks' not in response:
         raise KeyError(API_MISSING_HOMEWORKS_KEY_ERROR)
 
     homeworks = response['homeworks']
 
     if not isinstance(homeworks, list):
-        error_msg = (
-            f'{API_HOMEWORKS_NOT_LIST_ERROR}'
-            f'Получено: {type(homeworks)} - {repr(homeworks)}'
+        raise TypeError(
+            API_HOMEWORKS_NOT_LIST_ERROR.format(
+                actual_type=type(homeworks),
+                actual_value=repr(homeworks)
+            )
         )
-        raise TypeError(error_msg)
 
     return homeworks
 
@@ -216,12 +216,14 @@ def main():
 
 if __name__ == '__main__':
     logging.basicConfig(
-        format='%(asctime)s - %(levelname)s - %(lineno)d - '
-               '%(funcName)s - %(message)s',
+        format=(
+            '%(asctime)s - %(levelname)s - %(lineno)d - '
+            '%(funcName)s - %(message)s'
+        ),
         level=logging.DEBUG,
         handlers=[
             logging.FileHandler(f'{__file__}.log', mode='w'),
-            logging.StreamHandler()
+            logging.StreamHandler(sys.stdout)
         ]
     )
     main()
