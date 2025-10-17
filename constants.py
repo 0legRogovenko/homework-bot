@@ -50,7 +50,8 @@ ENDPOINT_UNAVAILABLE_ERROR = (
 API_RESPONSE_ERROR = (
     'Ошибка в ответе API: {data}. '
     'Эндпоинт: {endpoint}, '
-    'Params: {params}'
+    'Params: {params}, '
+    'Headers: {headers}'
 )
 
 API_RESPONSE_NOT_DICT_ERROR = (
