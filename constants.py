@@ -1,22 +1,9 @@
-import os
-
 from dotenv import load_dotenv
-
 
 load_dotenv()
 
 # Токены и идентификаторы
-PRACTICUM_TOKEN = os.getenv('PRACTICUM_TOKEN')
-TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
-TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 REQUIRED_TOKENS = ('PRACTICUM_TOKEN', 'TELEGRAM_TOKEN', 'TELEGRAM_CHAT_ID')
-
-# Основные параметры
-RETRY_PERIOD = 600
-ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses'
-HEADERS = {
-    'Authorization': f'OAuth {PRACTICUM_TOKEN}',
-}
 
 # Возможные вердикты проверки
 HOMEWORK_VERDICTS = {
@@ -25,10 +12,8 @@ HOMEWORK_VERDICTS = {
     'rejected': 'Работа проверена: у ревьюера есть замечания.'
 }
 
-STATUS_OK = 200
-
 # Сообщения об ошибках и логах
-API_REQUEST_ERROR_MSG = (
+API_REQUEST_ERROR = (
     'Ошибка при запросе к API: {error}. '
     'Эндпоинт {endpoint} недоступен. '
     'Код ответа API: {status_code}, '
@@ -37,70 +22,67 @@ API_REQUEST_ERROR_MSG = (
     'Params: {params}'
 )
 
-MESSAGE_SEND_ERROR_MSG = (
+MESSAGE_SEND_ERROR = (
     'Не удалось отправить сообщение в чат {chat_id}: {error}. '
     'Текст сообщения: {message}'
 )
 
-MESSAGE_SENT_LOG_MSG = (
+MESSAGE_SENT_LOG = (
     'Сообщение отправлено в чат {chat_id}. '
     'Текст сообщения: {message}'
 )
 
-MISSING_ENV_VAR_MSG = (
+MISSING_ENV_VAR = (
     'Отсутствует обязательная переменная окружения: {name}'
 )
 
-UNKNOWN_STATUS_MSG = (
+UNKNOWN_STATUS = (
     'Неизвестный статус работы: {status}'
 )
 
-ENDPOINT_UNAVAILABLE_ERROR_MSG = (
+ENDPOINT_UNAVAILABLE_ERROR = (
     'Эндпоинт {endpoint} недоступен. '
     'Код ответа API: {status_code}, '
     'Текст ответа: {text}, '
     'URL запроса: {url}'
 )
 
-API_RESPONSE_ERROR_MSG = (
+API_RESPONSE_ERROR = (
     'Ошибка в ответе API: {data}. '
     'Эндпоинт: {endpoint}, '
     'Params: {params}'
 )
 
-API_RESPONSE_NOT_DICT_ERROR_MSG = (
+API_RESPONSE_NOT_DICT_ERROR = (
     'Ответ API не является словарем: {response}'
 )
 
-API_MISSING_HOMEWORKS_KEY_ERROR_MSG = (
+API_MISSING_HOMEWORKS_KEY_ERROR = (
     'В ответе API отсутствует ключ "homeworks"'
 )
 
-API_HOMEWORKS_NOT_LIST_ERROR_MSG = (
+API_HOMEWORKS_NOT_LIST_ERROR = (
     '"homeworks" не является списком. Тип: {type}'
 )
 
-API_HOMEWORK_NAME_MISSING_ERROR_MSG = (
+API_HOMEWORK_NAME_MISSING_ERROR = (
     'В словаре homework отсутствует ключ "homework_name"'
 )
 
 
-HOMEWORK_STATUS_CHANGED_MSG = (
+HOMEWORK_STATUS_CHANGED = (
     'Изменился статус проверки работы "{name}". {verdict}'
 )
 
-MISSING_REQUIRED_ENV_VARS_ERROR_MSG = (
-    'Отсутствуют обязательные переменные окружения'
-)
 
-NO_NEW_HOMEWORK_STATUSES_MSG = (
+NO_NEW_HOMEWORK_STATUSES = (
     'Нет новых статусов домашних работ'
 )
 
-PROGRAM_FAILURE_ERROR_MSG = (
+PROGRAM_FAILURE_ERROR = (
     'Сбой в работе программы: {error}'
 )
 
-ERROR_MESSAGE_SEND_FAILURE_MSG = (
+ERROR_MESSAGE_SEND_FAILURE = (
     'Не удалось отправить сообщение об ошибке: {send_error}'
 )
