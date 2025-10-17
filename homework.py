@@ -95,14 +95,10 @@ def get_api_answer(timestamp):
             **request_params
         )
     except requests.RequestException as error:
-        response = getattr(error, 'response', None)
         raise ConnectionError(
             API_REQUEST_ERROR.format(
                 error=error,
                 endpoint=request_params['url'],
-                status_code=response.status_code,
-                text=response.text,
-                url=request_params['url'],
                 params=request_params['params']
 
             )
@@ -113,8 +109,9 @@ def get_api_answer(timestamp):
             ENDPOINT_UNAVAILABLE_ERROR.format(
                 endpoint=request_params['url'],
                 status_code=response.status_code,
-                text=response.text,
-                url=request_params['url']
+                url=request_params['url'],
+                params=request_params['params'],
+                headers=request_params['headers']
             )
         )
     data = response.json()

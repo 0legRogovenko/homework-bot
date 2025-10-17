@@ -16,9 +16,6 @@ HOMEWORK_VERDICTS = {
 API_REQUEST_ERROR = (
     'Ошибка при запросе к API: {error}. '
     'Эндпоинт {endpoint} недоступен. '
-    'Код ответа API: {status_code}, '
-    'Текст ответа: {text}, '
-    'URL запроса: {url}, '
     'Params: {params}'
 )
 
@@ -43,8 +40,9 @@ UNKNOWN_STATUS = (
 ENDPOINT_UNAVAILABLE_ERROR = (
     'Эндпоинт {endpoint} недоступен. '
     'Код ответа API: {status_code}, '
-    'Текст ответа: {text}, '
     'URL запроса: {url}'
+    'Params: {params}, '
+    'Headers: {headers}'
 )
 
 API_RESPONSE_ERROR = (
