@@ -98,15 +98,21 @@ def get_api_answer(timestamp):
         raise ConnectionError(
             API_REQUEST_ERROR.format(
                 error=error,
-                **request_params
+                endpoint=request_params['url'],
+                status_code='нет текста',
+                url=request_params['url'],
+                params=request_params['params']
+
             )
         )
 
     if response.status_code != HTTPStatus.OK:
         raise EndpointError(
             ENDPOINT_UNAVAILABLE_ERROR.format(
+                endpoint=request_params['url'],
                 status_code=response.status_code,
-                **request_params
+                text=response.text,
+                url=request_params['url']
             )
         )
     data = response.json()
@@ -115,9 +121,9 @@ def get_api_answer(timestamp):
         if key in data:
             raise APIRequestError(
                 API_RESPONSE_ERROR.format(
-                    key=key,
-                    value=data[key],
-                    **request_params
+                    data={key: data[key]},
+                    endpoint=request_params['url'],
+                    params=request_params['params']
                 )
             )
 
@@ -133,7 +139,6 @@ def check_response(response):
         raise TypeError(
             API_RESPONSE_NOT_DICT_ERROR.format(
                 actual_type=type(response),
-                actual_value=repr(response)
             )
         )
     if 'homeworks' not in response:
@@ -145,7 +150,6 @@ def check_response(response):
         raise TypeError(
             API_HOMEWORKS_NOT_LIST_ERROR.format(
                 actual_type=type(homeworks),
-                actual_value=repr(homeworks)
             )
         )
 

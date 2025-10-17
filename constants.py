@@ -55,7 +55,7 @@ API_RESPONSE_ERROR = (
 
 API_RESPONSE_NOT_DICT_ERROR = (
     'Ответ API не является словарем. '
-    'Получено: {actual_type} - {actual_value}'
+    'Получено: {actual_type}'
 )
 
 API_MISSING_HOMEWORKS_KEY_ERROR = (
@@ -64,7 +64,7 @@ API_MISSING_HOMEWORKS_KEY_ERROR = (
 
 API_HOMEWORKS_NOT_LIST_ERROR = (
     '"homeworks" не является списком. '
-    'Получено: {actual_type} - {actual_value}'
+    'Получено: {actual_type}'
 )
 
 API_HOMEWORK_NAME_MISSING_ERROR = (
